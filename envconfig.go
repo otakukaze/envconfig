@@ -1,6 +1,9 @@
 package envconfig
 
-import "reflect"
+import (
+	"log"
+	"reflect"
+)
 
 // Parse -
 func Parse(i interface{}) {
@@ -53,7 +56,11 @@ func Parse(i interface{}) {
 				f.SetBool(data)
 			}
 			break
+		case reflect.Slice:
+			// TODO :
+			break
 		default:
+			log.Printf("%v is not support \n", f.Kind())
 			continue
 		}
 	}
