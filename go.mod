@@ -1,3 +1,3 @@
-module git.trj.tw/golang/go-envconfig
+module github.com/otakukaze/envconfig
 
 go 1.13
