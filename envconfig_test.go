@@ -1,6 +1,7 @@
 package envconfig
 
 import (
+	"fmt"
 	"os"
 	"testing"
 )
@@ -14,10 +15,13 @@ func TestParse(t *testing.T) {
 		Host    string   `env:"HOST"`
 		Enabled bool     `env:"ENABLED"`
 		Keys    []string `env:"KEYS"`
+		Levels  []int    `env:"LEVELS"`
 	}
 	os.Setenv("PORT", "10230")
 	os.Setenv("HOST", "localhost")
 	os.Setenv("ENABLED", "true")
+	os.Setenv("KEYS", "key1,key2")
+	os.Setenv("LEVELS", "1,2,3")
 
 	tests := []struct {
 		name string
@@ -33,6 +37,7 @@ func TestParse(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			Parse(tt.args.i)
+			fmt.Println(tt.args.i)
 		})
 	}
 }

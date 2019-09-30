@@ -3,6 +3,7 @@ package envconfig
 import (
 	"os"
 	"strconv"
+	"strings"
 )
 
 func parseString(envName string) (string, bool) {
@@ -50,4 +51,78 @@ func parseBool(envName string) (bool, bool) {
 		}
 	}
 	return false, false
+}
+
+func parseSliceString(envName string) ([]string, bool) {
+	if env := os.Getenv(envName); len(env) > 0 {
+		strs := strings.Split(env, ",")
+		return strs, true
+	}
+	return nil, false
+}
+
+func parseSliceInt64(envName string) ([]int64, bool) {
+	if env := os.Getenv(envName); len(env) > 0 {
+		strs := strings.Split(env, ",")
+		ints := make([]int64, 0, len(strs))
+		for _, v := range strs {
+			val, err := strconv.ParseInt(v, 10, 64)
+			if err != nil {
+				return nil, false
+			}
+			ints = append(ints, val)
+		}
+		return ints, true
+	}
+	return nil, false
+}
+
+func parseSliceInt32(envName string) ([]int32, bool) {
+	if arr, ok := parseSliceInt64(envName); ok {
+		arr32 := make([]int32, 0, len(arr))
+		for _, v := range arr {
+			arr32 = append(arr32, int32(v))
+		}
+
+		return arr32, true
+	}
+	return nil, false
+}
+
+func parseSliceInt16(envName string) ([]int16, bool) {
+	if arr, ok := parseSliceInt64(envName); ok {
+		arr16 := make([]int16, 0, len(arr))
+		for _, v := range arr {
+			arr16 = append(arr16, int16(v))
+		}
+		return arr16, true
+	}
+	return nil, false
+}
+
+func parseSliceInt(envName string) ([]int, bool) {
+	if arr, ok := parseSliceInt64(envName); ok {
+		arr8 := make([]int, 0, len(arr))
+		for _, v := range arr {
+			arr8 = append(arr8, int(v))
+		}
+		return arr8, true
+	}
+	return nil, false
+}
+
+func parseSliceBool(envName string) ([]bool, bool) {
+	if env := os.Getenv(envName); len(env) > 0 {
+		strs := strings.Split(env, ",")
+		arr := make([]bool, 0, len(strs))
+		for _, v := range strs {
+			b, err := strconv.ParseBool(v)
+			if err != nil {
+				return nil, false
+			}
+			arr = append(arr, b)
+		}
+		return arr, true
+	}
+	return nil, false
 }

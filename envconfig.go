@@ -57,7 +57,34 @@ func Parse(i interface{}) {
 			}
 			break
 		case reflect.Slice:
-			// TODO :
+			ftype := f.Type().Elem().Kind()
+			switch ftype {
+			case reflect.String:
+				if val, ok := parseSliceString(tag); ok {
+					f.Set(reflect.ValueOf(val))
+				}
+				break
+			case reflect.Int:
+				if val, ok := parseSliceInt(tag); ok {
+					f.Set(reflect.ValueOf(val))
+				}
+				break
+			case reflect.Int16:
+				if val, ok := parseSliceInt16(tag); ok {
+					f.Set(reflect.ValueOf(val))
+				}
+				break
+			case reflect.Int32:
+				if val, ok := parseSliceInt32(tag); ok {
+					f.Set(reflect.ValueOf(val))
+				}
+				break
+			case reflect.Int64:
+				if val, ok := parseSliceInt64(tag); ok {
+					f.Set(reflect.ValueOf(val))
+				}
+				break
+			}
 			break
 		default:
 			log.Printf("%v is not support \n", f.Kind())
