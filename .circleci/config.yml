@@ -1,0 +1,9 @@
+version: 2
+jobs:
+  test:
+    docker:
+      image: circleci/golang:1.13
+      working_directory: /data
+      steps:
+        - checkout
+        - run: go test -v ./...
