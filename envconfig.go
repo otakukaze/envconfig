@@ -56,6 +56,16 @@ func Parse(i interface{}) {
 				f.SetBool(data)
 			}
 			break
+		case reflect.Float32:
+			if data, ok := parseFloat32(tag); ok {
+				f.Set(reflect.ValueOf(data))
+			}
+			break
+		case reflect.Float64:
+			if data, ok := parseFloat64(tag); ok {
+				f.Set(reflect.ValueOf(data))
+			}
+			break
 		case reflect.Slice:
 			ftype := f.Type().Elem().Kind()
 			switch ftype {
@@ -81,6 +91,21 @@ func Parse(i interface{}) {
 				break
 			case reflect.Int64:
 				if val, ok := parseSliceInt64(tag); ok {
+					f.Set(reflect.ValueOf(val))
+				}
+				break
+			case reflect.Bool:
+				if val, ok := parseSliceBool(tag); ok {
+					f.Set(reflect.ValueOf(val))
+				}
+				break
+			case reflect.Float32:
+				if val, ok := parseSliceFloat32(tag); ok {
+					f.Set(reflect.ValueOf(val))
+				}
+				break
+			case reflect.Float64:
+				if val, ok := parseSliceFloat64(tag); ok {
 					f.Set(reflect.ValueOf(val))
 				}
 				break

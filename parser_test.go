@@ -449,3 +449,151 @@ func Test_parseSliceBool(t *testing.T) {
 		})
 	}
 }
+
+func Test_parseFloat64(t *testing.T) {
+	type args struct {
+		envName string
+	}
+	tests := []struct {
+		name  string
+		args  args
+		want  float64
+		want1 bool
+	}{
+		{
+			name:  "test parse float64 1",
+			args:  args{envName: "F64"},
+			want:  1.23,
+			want1: true,
+		},
+		{
+			name:  "test parse float64 2",
+			args:  args{envName: "F642"},
+			want:  0.0,
+			want1: false,
+		},
+	}
+	os.Setenv("F64", "1.23")
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, got1 := parseFloat64(tt.args.envName)
+			if got != tt.want {
+				t.Errorf("parseFloat64() got = %v, want %v", got, tt.want)
+			}
+			if got1 != tt.want1 {
+				t.Errorf("parseFloat64() got1 = %v, want %v", got1, tt.want1)
+			}
+		})
+	}
+}
+
+func Test_parseFloat32(t *testing.T) {
+	type args struct {
+		envName string
+	}
+	tests := []struct {
+		name  string
+		args  args
+		want  float32
+		want1 bool
+	}{
+		{
+			name:  "test parse float32 1",
+			args:  args{envName: "F32"},
+			want:  1.23,
+			want1: true,
+		},
+		{
+			name:  "test parse float32 2",
+			args:  args{envName: "F322"},
+			want:  0.0,
+			want1: false,
+		},
+	}
+	os.Setenv("F32", "1.23")
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, got1 := parseFloat32(tt.args.envName)
+			if got != tt.want {
+				t.Errorf("parseFloat32() got = %v, want %v", got, tt.want)
+			}
+			if got1 != tt.want1 {
+				t.Errorf("parseFloat32() got1 = %v, want %v", got1, tt.want1)
+			}
+		})
+	}
+}
+
+func Test_parseSliceFloat64(t *testing.T) {
+	type args struct {
+		envName string
+	}
+	tests := []struct {
+		name  string
+		args  args
+		want  []float64
+		want1 bool
+	}{
+		{
+			name:  "test parse slice float64 1",
+			args:  args{envName: "SF64"},
+			want:  []float64{1.23, 2.34},
+			want1: true,
+		},
+		{
+			name:  "test parse slice float64 2",
+			args:  args{envName: "SF642"},
+			want:  nil,
+			want1: false,
+		},
+	}
+	os.Setenv("SF64", "1.23,2.34")
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, got1 := parseSliceFloat64(tt.args.envName)
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("parseSliceFloat64() got = %v, want %v", got, tt.want)
+			}
+			if got1 != tt.want1 {
+				t.Errorf("parseSliceFloat64() got1 = %v, want %v", got1, tt.want1)
+			}
+		})
+	}
+}
+
+func Test_parseSliceFloat32(t *testing.T) {
+	type args struct {
+		envName string
+	}
+	tests := []struct {
+		name  string
+		args  args
+		want  []float32
+		want1 bool
+	}{
+		{
+			name:  "test parse slice float32 1",
+			args:  args{envName: "SF32"},
+			want:  []float32{1.23, 2.34},
+			want1: true,
+		},
+		{
+			name:  "test parse slice float32 2",
+			args:  args{envName: "SF322"},
+			want:  nil,
+			want1: false,
+		},
+	}
+	os.Setenv("SF32", "1.23,2.34")
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, got1 := parseSliceFloat32(tt.args.envName)
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("parseSliceFloat32() got = %v, want %v", got, tt.want)
+			}
+			if got1 != tt.want1 {
+				t.Errorf("parseSliceFloat32() got1 = %v, want %v", got1, tt.want1)
+			}
+		})
+	}
+}

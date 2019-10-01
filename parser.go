@@ -53,6 +53,22 @@ func parseBool(envName string) (bool, bool) {
 	return false, false
 }
 
+func parseFloat64(envName string) (float64, bool) {
+	if env := os.Getenv(envName); len(env) > 0 {
+		if f, err := strconv.ParseFloat(env, 64); err == nil {
+			return f, true
+		}
+	}
+	return 0.0, false
+}
+
+func parseFloat32(envName string) (float32, bool) {
+	if f, ok := parseFloat64(envName); ok {
+		return float32(f), true
+	}
+	return 0.0, false
+}
+
 func parseSliceString(envName string) ([]string, bool) {
 	if env := os.Getenv(envName); len(env) > 0 {
 		strs := strings.Split(env, ",")
@@ -123,6 +139,33 @@ func parseSliceBool(envName string) ([]bool, bool) {
 			arr = append(arr, b)
 		}
 		return arr, true
+	}
+	return nil, false
+}
+
+func parseSliceFloat64(envName string) ([]float64, bool) {
+	if env := os.Getenv(envName); len(env) > 0 {
+		strs := strings.Split(env, ",")
+		arr := make([]float64, 0, len(strs))
+		for _, v := range strs {
+			f, err := strconv.ParseFloat(v, 64)
+			if err != nil {
+				return nil, false
+			}
+			arr = append(arr, f)
+		}
+		return arr, true
+	}
+	return nil, false
+}
+
+func parseSliceFloat32(envName string) ([]float32, bool) {
+	if arr, ok := parseSliceFloat64(envName); ok {
+		arr32 := make([]float32, 0, len(arr))
+		for _, v := range arr {
+			arr32 = append(arr32, float32(v))
+		}
+		return arr32, true
 	}
 	return nil, false
 }
