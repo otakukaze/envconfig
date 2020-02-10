@@ -8,7 +8,7 @@ import (
 // Parse -
 func Parse(i interface{}) {
 	t := reflect.ValueOf(i)
-	if t.Kind() == reflect.Ptr {
+	for t.Kind() == reflect.Ptr {
 		t = t.Elem()
 	}
 

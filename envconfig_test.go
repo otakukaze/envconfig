@@ -50,14 +50,22 @@ func TestParse(t *testing.T) {
 	os.Setenv("SF64", "1.23")
 	os.Setenv("SBOOL", "false")
 
+	test := &testStruct{}
+
 	tests := []struct {
 		name string
 		args args
 	}{
 		{
-			name: "test env config parse",
+			name: "test env config parse (struct ptr)",
 			args: args{
-				i: &testStruct{},
+				i: test,
+			},
+		},
+		{
+			name: "test env config parse (ptr in ptr)",
+			args: args{
+				i: &test,
 			},
 		},
 	}
