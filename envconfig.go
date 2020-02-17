@@ -25,45 +25,84 @@ func Parse(i interface{}) {
 			continue
 		}
 
-		switch f.Kind() {
+		isPtr := false
+		ftype := f.Type()
+		for ftype.Kind() == reflect.Ptr {
+			ftype = ftype.Elem()
+			isPtr = true
+		}
+
+		switch ftype.Kind() {
 		case reflect.Int:
 			if data, ok := parseInt(tag); ok {
-				f.SetInt(int64(data))
+				if isPtr {
+					f.Set(reflect.ValueOf(&data))
+				} else {
+					f.Set(reflect.ValueOf(data))
+				}
 			}
 			break
 		case reflect.Int16:
 			if data, ok := parseInt16(tag); ok {
-				f.SetInt(int64(data))
+				if isPtr {
+					f.Set(reflect.ValueOf(&data))
+				} else {
+					f.Set(reflect.ValueOf(data))
+				}
 			}
 			break
 		case reflect.Int32:
 			if data, ok := parseInt32(tag); ok {
-				f.SetInt(int64(data))
+				if isPtr {
+					f.Set(reflect.ValueOf(&data))
+				} else {
+					f.Set(reflect.ValueOf(data))
+				}
 			}
 			break
 		case reflect.Int64:
 			if data, ok := parseInt64(tag); ok {
-				f.SetInt(data)
+				if isPtr {
+					f.Set(reflect.ValueOf(&data))
+				} else {
+					f.Set(reflect.ValueOf(data))
+				}
 			}
 			break
 		case reflect.String:
 			if data, ok := parseString(tag); ok {
-				f.SetString(data)
+				if isPtr {
+					f.Set(reflect.ValueOf(&data))
+				} else {
+					f.Set(reflect.ValueOf(data))
+				}
 			}
 			break
 		case reflect.Bool:
 			if data, ok := parseBool(tag); ok {
-				f.SetBool(data)
+				if isPtr {
+					f.Set(reflect.ValueOf(&data))
+				} else {
+					f.Set(reflect.ValueOf(data))
+				}
 			}
 			break
 		case reflect.Float32:
 			if data, ok := parseFloat32(tag); ok {
-				f.Set(reflect.ValueOf(data))
+				if isPtr {
+					f.Set(reflect.ValueOf(&data))
+				} else {
+					f.Set(reflect.ValueOf(data))
+				}
 			}
 			break
 		case reflect.Float64:
 			if data, ok := parseFloat64(tag); ok {
-				f.Set(reflect.ValueOf(data))
+				if isPtr {
+					f.Set(reflect.ValueOf(&data))
+				} else {
+					f.Set(reflect.ValueOf(data))
+				}
 			}
 			break
 		case reflect.Slice:

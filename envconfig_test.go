@@ -26,6 +26,7 @@ func TestParse(t *testing.T) {
 		SF32      []float32 `env:"SF32"`
 		SF64      []float64 `env:"SF64"`
 		SBool     []bool    `env:"SBOOL"`
+		PInt      *int      `env:"PINT"`
 		NoEnv     string
 		NoSupport map[string]string `env:"TIME"`
 		InStruct  struct {
@@ -49,6 +50,7 @@ func TestParse(t *testing.T) {
 	os.Setenv("SF32", "1.23")
 	os.Setenv("SF64", "1.23")
 	os.Setenv("SBOOL", "false")
+	os.Setenv("PINT", "1")
 
 	test := &testStruct{}
 
